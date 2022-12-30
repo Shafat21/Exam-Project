@@ -8,17 +8,21 @@ public class StudentExamWindow extends JFrame
     private JLabel questionLabel;
     private JTextArea questionArea;
     private JLabel answerLabel;
-    private JTextField answerField;
+    private JTextArea answerField;
+    private JLabel nameLabel;
+    private JTextField nameField;
+    private JLabel idLabel;
+    private JTextField idField;
     private JButton submitButton;
 
     public StudentExamWindow() 
     {
-    setTitle("Take Exam");
-    setLayout(new FlowLayout());
+        setTitle("Take Exam");
+        setLayout(new FlowLayout());
 
-    questionLabel = new JLabel("Question: ");
-    questionArea = new JTextArea(10, 30);
-    questionArea.setEditable(false);
+        questionLabel = new JLabel("Question: ");
+        questionArea = new JTextArea(10, 40);
+        questionArea.setEditable(false);
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("questions.txt"));
@@ -27,42 +31,61 @@ public class StudentExamWindow extends JFrame
                 questionArea.append(line + "\n");
                 line = reader.readLine();
             }
-                reader.close();
+            reader.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
         answerLabel = new JLabel("Answer: ");
-        answerField = new JTextField(30);
+        answerField = new JTextArea(10, 40);
+        nameLabel = new JLabel("Name: ");
+        nameField = new JTextField(20);
+        idLabel = new JLabel("ID: ");
+        idField = new JTextField(20);
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(new SubmitButtonListener());
 
+        add(nameLabel);
+        add(nameField);
+        add(idLabel);
+        add(idField);
         add(questionLabel);
         add(questionArea);
         add(answerLabel);
         add(answerField);
+
         add(submitButton);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300);
+        setSize(570, 470);
         setVisible(true);
     }
 
-    private class SubmitButtonListener implements ActionListener {
+    private class SubmitButtonListener implements ActionListener     {
         public void actionPerformed(ActionEvent e) 
         {
             String answer = answerField.getText();
+            String name = nameField.getText();
+            String id = idField.getText();
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("answers.txt", true));
-            writer.append(answer + "\n");
-            writer.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            File answersFolder = new File("answers");
+            if (!answersFolder.exists()) {
+                answersFolder.mkdir();
+            }
 
-        answerField.setText("");
+            File answersFile = new File(answersFolder, id + ".txt");
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(answersFile, true));
+                writer.append(name + "," + id + "," + answer + "\n");
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            answerField.setText("");
+            nameField.setText("");
+            idField.setText("");
         }
     }
 }

@@ -2,12 +2,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import javax.swing.table.*;
 
 public class QuestionCreationWindow extends JFrame 
 {
     private JLabel questionLabel;
     private JTextField questionField;
-    private JTextArea questionArea;
+    private JTable questionTable;
+    private DefaultTableModel tableModel;
+    private JScrollPane tableScrollPane;
     private JButton saveButton;
     private JButton showAnswersButton;
 
@@ -18,16 +21,21 @@ public class QuestionCreationWindow extends JFrame
 
         questionLabel = new JLabel("Enter question: ");
         questionField = new JTextField(30);
-        questionArea = new JTextArea(10, 30);
-        questionArea.setEditable(false);
+
+        tableModel = new DefaultTableModel(new String[] {"Serial", "Question"}, 0);
+        questionTable = new JTable(tableModel);
+        tableScrollPane = new JScrollPane(questionTable);
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("questions.txt"));
             String line = reader.readLine();
-        while (line != null) {
-            questionArea.append(line + "\n");
-            line = reader.readLine();
-        }
+            int serial = 1;
+            while (line != null) 
+            {
+                tableModel.addRow(new String[] {String.valueOf(serial), line});
+                line = reader.readLine();
+                serial++;
+            }
             reader.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -42,12 +50,10 @@ public class QuestionCreationWindow extends JFrame
         add(questionField);
         add(saveButton);
         add(showAnswersButton);
-
-        JScrollPane scrollPane = new JScrollPane(questionArea);
-        add(scrollPane);
+        add(tableScrollPane);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300);
+        setSize(800, 600);
         setVisible(true);
     }
 
@@ -66,7 +72,8 @@ public class QuestionCreationWindow extends JFrame
             }
 
             questionField.setText("");
-            questionArea.append(question + "\n");
+            int serial = tableModel.getRowCount() + 1;
+            tableModel.addRow(new String[] {String.valueOf(serial), question});
         }
     }
 
@@ -74,7 +81,6 @@ public class QuestionCreationWindow extends JFrame
     {
         public void actionPerformed(ActionEvent e) 
         {
-            // Open the show answers window
             new ShowAnswersWindow();
         }
     }
