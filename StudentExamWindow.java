@@ -77,7 +77,7 @@ public class StudentExamWindow extends JFrame
             File answersFile = new File(answersFolder, id + ".txt");
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(answersFile, true));
-                writer.append(name + "," + id + "," + answer + "\n");
+                writer.append(name + "\n\n" + id + "\n\n" + answer + "\n");
                 writer.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
