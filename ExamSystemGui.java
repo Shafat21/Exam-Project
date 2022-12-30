@@ -37,8 +37,10 @@ public class ExamSystemGui extends JFrame
         setVisible(true);
         setIconImage(icon.getImage());
 
-        Timer timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        Timer timer = new Timer(1000, new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
                 updateTimeLabel();
             }
         });
