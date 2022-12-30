@@ -6,14 +6,16 @@ import java.time.format.DateTimeFormatter;
 
 public class ExamSystemGui extends JFrame 
 {
-    public enum UserType {
+    public enum UserType 
+    {
         TEACHER,
         STUDENT;
     }
     
     private JLabel timeLabel;
     
-    public ExamSystemGui() {
+    public ExamSystemGui() 
+    {
         setTitle("Exam System");
         setLayout(new FlowLayout());
         ImageIcon icon = new ImageIcon("favicon.ico");
@@ -43,7 +45,8 @@ public class ExamSystemGui extends JFrame
         timer.start();
     }
     
-    private void updateTimeLabel() {
+    private void updateTimeLabel() 
+    {
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
         String formattedTime = currentTime.format(formatter);
@@ -54,7 +57,8 @@ public class ExamSystemGui extends JFrame
     {
         private UserType userType;
 
-        public UserTypeButtonListener(UserType userType) {
+        public UserTypeButtonListener(UserType userType) 
+        {
             this.userType = userType;
         }
 

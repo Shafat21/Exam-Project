@@ -62,7 +62,8 @@ public class StudentExamWindow extends JFrame
         setVisible(true);
     }
 
-    private class SubmitButtonListener implements ActionListener     {
+    private class SubmitButtonListener implements ActionListener 
+    {
         public void actionPerformed(ActionEvent e) 
         {
             String answer = answerField.getText();

@@ -9,7 +9,8 @@ public class TeacherPasswordWindow extends JFrame
     private JButton submitButton;
     private String password;
 
-    public TeacherPasswordWindow() {
+    public TeacherPasswordWindow() 
+    {
       setTitle("Teacher Password");
       setLayout(new FlowLayout());
 
