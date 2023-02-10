@@ -16,6 +16,14 @@ public class TeacherPasswordWindow extends JFrame
 
       passwordLabel = new JLabel("Enter password: ");
       passwordField = new JPasswordField(10);
+      passwordField.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+          if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            submitButton.doClick();
+          }
+        }
+      });
       submitButton = new JButton("Submit");
       submitButton.addActionListener(new SubmitButtonListener());
 
@@ -35,7 +43,7 @@ public class TeacherPasswordWindow extends JFrame
             char[] enteredPassword = passwordField.getPassword();
             password = new String(enteredPassword);
 
-            if (password.equals("admin")) {
+            if (password.equals("1")) {
               new QuestionCreationWindow();
             } else {
               JOptionPane.showMessageDialog(null, "Incorrect password. Please try again.");
