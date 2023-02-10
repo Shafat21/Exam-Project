@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.*;
 import javax.swing.table.*;
 
 public class QuestionCreationWindow extends JFrame 
@@ -13,6 +14,7 @@ public class QuestionCreationWindow extends JFrame
     private JScrollPane tableScrollPane;
     private JButton saveButton;
     private JButton showAnswersButton;
+    private ArrayList<String> questions;
 
     public QuestionCreationWindow() 
     {
@@ -26,19 +28,24 @@ public class QuestionCreationWindow extends JFrame
         questionTable = new JTable(tableModel);
         tableScrollPane = new JScrollPane(questionTable);
 
+        questions = new ArrayList<>();
+
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("questions.txt"));
-            String line = reader.readLine();
-            int serial = 1;
-            while (line != null) 
-            {
-                tableModel.addRow(new String[] {String.valueOf(serial), line});
-                line = reader.readLine();
-                serial++;
-            }
-            reader.close();
-        } catch (IOException ex) {
+            FileInputStream fileIn = new FileInputStream("questions.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            questions = (ArrayList<String>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
+        }
+        
+
+        int serial = 1;
+        for (String question : questions) 
+        {
+            tableModel.addRow(new String[] {String.valueOf(serial), question});
+            serial++;
         }
 
         saveButton = new JButton("Save");
@@ -62,11 +69,14 @@ public class QuestionCreationWindow extends JFrame
         public void actionPerformed(ActionEvent e) 
         {
             String question = questionField.getText();
+            questions.add(question);
 
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("questions.txt", true));
-                writer.append(question + "\n");
-                writer.close();
+                FileOutputStream fileOut = new FileOutputStream("questions.ser");
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(questions);
+                out.close();
+                fileOut.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
