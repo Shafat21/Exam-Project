@@ -36,7 +36,7 @@ public class ShowAnswersWindow extends JFrame
             @Override
             public boolean accept(File dir, String name) 
             {
-                return name.endsWith(".txt");
+                return name.endsWith(".ser");
             }
         });
 
@@ -55,16 +55,12 @@ public class ShowAnswersWindow extends JFrame
     {
         try 
         {
-            BufferedReader reader = new BufferedReader(new FileReader(answerFile));
-            String line = reader.readLine();
-            while (line != null) 
-            {
-                answerArea.append(line + "\n");
-                line = reader.readLine();
-            }
-            reader.close();
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream(answerFile));
+            String answer = (String) input.readObject();
+            answerArea.setText(answer);
+            input.close();
             setTitle("Show Answers - " + answerFile.getName());
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
@@ -95,4 +91,3 @@ public class ShowAnswersWindow extends JFrame
         }
     }
 }
-
