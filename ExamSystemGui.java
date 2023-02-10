@@ -11,12 +11,9 @@ public class ExamSystemGui extends JFrame
         TEACHER,
         STUDENT;
     }
-    
-    private JLabel timeLabel;
-    
+
     public ExamSystemGui() 
     {
-        setTitle("Exam System");
         setLayout(new FlowLayout());
         ImageIcon icon = new ImageIcon("logo.png");
     
@@ -24,11 +21,7 @@ public class ExamSystemGui extends JFrame
         teacherButton.addActionListener(new UserTypeButtonListener(UserType.TEACHER));
         JButton studentButton = new JButton("Student");
         studentButton.addActionListener(new UserTypeButtonListener(UserType.STUDENT));
-        
-        timeLabel = new JLabel();
-        updateTimeLabel();
-        
-        add(timeLabel);
+
         add(teacherButton);
         add(studentButton);
 
@@ -41,18 +34,18 @@ public class ExamSystemGui extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-                updateTimeLabel();
+                updateTitle();
             }
         });
         timer.start();
     }
     
-    private void updateTimeLabel() 
+    private void updateTitle() 
     {
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
         String formattedTime = currentTime.format(formatter);
-        timeLabel.setText(formattedTime);
+        setTitle("Exam System - " + formattedTime);
     }
 
     private class UserTypeButtonListener implements ActionListener 
