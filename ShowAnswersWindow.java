@@ -16,6 +16,9 @@ public class ShowAnswersWindow extends JFrame
         setTitle("Show Answers");
         setLayout(new BorderLayout());
 
+        ImageIcon icon = new ImageIcon("logo.png");
+        setIconImage(icon.getImage());
+        
         answerArea = new JTextArea(10, 30);
         answerArea.setEditable(false);
         add(new JScrollPane(answerArea), BorderLayout.CENTER);
