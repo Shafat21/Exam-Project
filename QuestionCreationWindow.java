@@ -21,6 +21,9 @@ public class QuestionCreationWindow extends JFrame
         setTitle("Create Questions");
         setLayout(new FlowLayout());
 
+        ImageIcon icon = new ImageIcon("logo.png");
+        setIconImage(icon.getImage());
+        
         questionLabel = new JLabel("Enter question: ");
         questionField = new JTextField(30);
 
