@@ -18,7 +18,7 @@ public class ExamSystemGui extends JFrame
     {
         setTitle("Exam System");
         setLayout(new FlowLayout());
-        ImageIcon icon = new ImageIcon("favicon.ico");
+        ImageIcon icon = new ImageIcon("logo.png");
     
         JButton teacherButton = new JButton("Teacher");
         teacherButton.addActionListener(new UserTypeButtonListener(UserType.TEACHER));
