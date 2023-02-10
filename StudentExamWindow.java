@@ -21,6 +21,9 @@ public class StudentExamWindow extends JFrame
         setTitle("Take Exam");
         setLayout(new FlowLayout());
 
+        ImageIcon icon = new ImageIcon("logo.png");
+        setIconImage(icon.getImage());
+        
         questionLabel = new JLabel("Question: ");
         questionArea = new JTextArea(10, 40);
         questionArea.setEditable(false);
