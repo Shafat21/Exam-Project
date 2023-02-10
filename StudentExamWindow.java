@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.*;
 
 public class StudentExamWindow extends JFrame 
 {
@@ -25,14 +26,17 @@ public class StudentExamWindow extends JFrame
         questionArea.setEditable(false);
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("questions.txt"));
-            String line = reader.readLine();
-            while (line != null) {
-                questionArea.append(line + "\n");
-                line = reader.readLine();
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("questions.ser"));
+            ArrayList<String> questions = (ArrayList<String>) input.readObject();
+            input.close();
+
+            StringBuilder questionsString = new StringBuilder();
+            for (String question : questions) {
+                questionsString.append(question).append("\n");
             }
-            reader.close();
-        } catch (IOException ex) {
+
+            questionArea.setText(questionsString.toString());
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
 
@@ -75,11 +79,11 @@ public class StudentExamWindow extends JFrame
                 answersFolder.mkdir();
             }
 
-            File answersFile = new File(answersFolder, id + ".txt");
+            File answersFile = new File(answersFolder, id + ".ser");
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(answersFile, true));
-                writer.append(name + "\n\n" + id + "\n\n" + answer + "\n");
-                writer.close();
+                ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(answersFile, true));
+                output.writeObject(name + "\n\n" + id + "\n\n" + answer + "\n");
+                output.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
