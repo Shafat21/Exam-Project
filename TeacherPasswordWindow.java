@@ -14,6 +14,9 @@ public class TeacherPasswordWindow extends JFrame
       setTitle("Teacher Password");
       setLayout(new FlowLayout());
 
+      ImageIcon icon = new ImageIcon("logo.png");
+      setIconImage(icon.getImage());
+      
       passwordLabel = new JLabel("Enter password: ");
       passwordField = new JPasswordField(10);
       passwordField.addKeyListener(new KeyAdapter() {
