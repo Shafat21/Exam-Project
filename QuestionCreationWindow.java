@@ -7,7 +7,9 @@ import javax.swing.table.*;
 
 public class QuestionCreationWindow extends JFrame 
 {
+    private JLabel teacherNameLabel;
     private JLabel questionLabel;
+    private JTextField teacherNameField;
     private JTextField questionField;
     private JTable questionTable;
     private DefaultTableModel tableModel;
@@ -15,14 +17,25 @@ public class QuestionCreationWindow extends JFrame
     private JButton saveButton;
     private JButton showAnswersButton;
     private ArrayList<String> questions;
-
+    private String teacherName;
+    
     public QuestionCreationWindow() 
     {
         setTitle("Create Questions");
-        setLayout(new FlowLayout());
+        setLayout(new GridLayout(0, 1));
 
         ImageIcon icon = new ImageIcon("logo.png");
         setIconImage(icon.getImage());
+
+        teacherNameLabel = new JLabel("Teacher Name: ");
+        teacherNameLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        teacherNameLabel.setHorizontalAlignment(JLabel.CENTER);
+        teacherNameField = new JTextField(30);
+        teacherNameField.addActionListener(new TeacherNameFieldListener());
+        JPanel teacherNamePanel = new JPanel(new GridLayout(0, 1));
+        teacherNamePanel.add(teacherNameLabel);
+        teacherNamePanel.add(teacherNameField);
+        add(teacherNamePanel);
         
         questionLabel = new JLabel("Enter question: ");
         questionField = new JTextField(30);
@@ -56,15 +69,27 @@ public class QuestionCreationWindow extends JFrame
         showAnswersButton = new JButton("Show Answers");
         showAnswersButton.addActionListener(new ShowAnswersButtonListener());
 
-        add(questionLabel);
-        add(questionField);
-        add(saveButton);
-        add(showAnswersButton);
+        JPanel buttonPanel = new JPanel(new GridLayout(0, 1));
+        buttonPanel.add(questionLabel);
+        buttonPanel.add(questionField);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(showAnswersButton);
+
+        add(buttonPanel);
         add(tableScrollPane);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
         setVisible(true);
+    }
+
+    private class TeacherNameFieldListener implements ActionListener 
+    {
+        public void actionPerformed(ActionEvent e) 
+        {
+            teacherName = teacherNameField.getText();
+            teacherNameLabel.setText("Teacher Name: " + teacherName);
+        }
     }
 
     private class SaveButtonListener implements ActionListener 
